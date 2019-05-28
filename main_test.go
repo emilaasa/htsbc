@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+// Section 2.1
 // TestSwapValue algorithm 2.1
 func TestSwapValue(t *testing.T) {
 	a, b := "first", "second"
@@ -92,10 +93,11 @@ func TestSwapValue214(t *testing.T) {
 	}
 }
 
+// Section 2.2
 // Given a set of n students' examination marks (in the range 0 to 100) make a
 // count of the number of students that passed the examination. A pass is
 // awarded for all marks of 50 and above.
-func TestCounting22(t *testing.T) {
+func TestCounting2_2(t *testing.T) {
 	studentMarks := []int{1, 100, 50, 51, 0, 49}
 	want := 3 // 3 students passed
 
@@ -114,4 +116,51 @@ func countAbove(cutoff int, d []int) int {
 		}
 	}
 	return count
+}
+
+// Modify algorithm so marks are read until an end-of-file is encountered.
+// For this set of marks determine the total number of marks, passes,
+// and percentage pass rate
+func Test2_2_1(t *testing.T) {
+	// Maybe create a temporary file?
+	// Write some data to the temp file
+	// Read in the same data (lol)
+	// count stuff
+	// Let's just start with the data pass
+	testData := []struct {
+		cutoff  int
+		total   int
+		passing int
+		input   []int
+	}{
+		{
+			cutoff:  50,
+			total:   4,
+			passing: 2,
+			input:   []int{51, 49, 50, 1},
+		},
+	}
+
+	for _, v := range testData {
+		passing, total, _ := countAbove2(v.cutoff, v.input)
+		if passing != v.passing {
+			t.Errorf("%d %d", passing, v.passing)
+		}
+
+		if total != v.total {
+			t.Errorf("%d %d", total, v.total)
+		}
+
+	}
+}
+
+func countAbove2(cutoff int, d []int) (passing int, total int, percentPassing float64) {
+	for _, v := range d {
+		total++
+		if v >= cutoff {
+			passing++
+		}
+	}
+	percentPassing = float64(passing / total)
+	return
 }
