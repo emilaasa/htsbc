@@ -105,3 +105,40 @@ func findMin(xs []int) int {
 	}
 	return r
 }
+
+func TestRemoveDuplicatesFromArray(t *testing.T) {
+	var tests = []struct {
+		name     string
+		expected []int
+		given    []int
+	}{
+		{"", []int{1, 2, 3}, []int{1, 1, 2, 2, 3}},
+		{"", []int{2, 3, 4}, []int{2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4}},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			actual := deDup(tt.given)
+			if !reflect.DeepEqual(actual, tt.expected) {
+				t.Errorf("(%v): expected %v, actual %v", tt.given, tt.expected, actual)
+			}
+
+		})
+	}
+
+}
+
+// Deduplicate an already sorted array by remberering the previous element
+func deDup(xs []int) []int {
+	ys := []int{}
+	var prev int // keep track of previous element
+	for i, v := range xs {
+		if i > 0 {
+			prev = xs[i-1]
+		}
+		if prev != v {
+			ys = append(ys, v)
+		}
+	}
+	return ys
+}
